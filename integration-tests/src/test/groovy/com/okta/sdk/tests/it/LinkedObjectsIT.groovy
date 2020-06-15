@@ -25,6 +25,7 @@ import wiremock.org.apache.commons.lang3.RandomStringUtils
 import static com.okta.sdk.tests.it.util.Util.assertLinkedObjectPresent
 import static org.hamcrest.MatcherAssert.assertThat
 import static org.hamcrest.Matchers.equalTo
+import static org.hamcrest.Matchers.iterableWithSize
 import static org.hamcrest.Matchers.notNullValue
 
 /**
@@ -34,6 +35,16 @@ import static org.hamcrest.Matchers.notNullValue
 class LinkedObjectsIT extends ITSupport {
 
     @Test
+    void removeLinkedObjectDefinitionTest() {
+        for (LinkedObject linkedObject : client.listLinkedObjectDefinitions()) {
+            linkedObject.delete()
+            sleep(2000)
+        }
+
+        assertThat(client.listLinkedObjectDefinitions(), iterableWithSize(0))
+    }
+
+    @Test(enabled = false)
     void addLinkedObjectDefinitionTest() {
         String primaryName = "manager" + RandomStringUtils.randomAlphanumeric(25)
         String associatedName = "subordinate" + RandomStringUtils.randomAlphanumeric(25)
@@ -69,7 +80,7 @@ class LinkedObjectsIT extends ITSupport {
         assertThat(createdLinkedObjectDefinition.getAssociated().getType(), equalTo(LinkedObjectDetailsType.USER))
     }
 
-    @Test
+    @Test(enabled = false)
     void getLinkedObjectDefinitionByPrimaryNameTest() {
         String primaryName = "manager" + RandomStringUtils.randomAlphanumeric(25)
         String associatedName = "subordinate" + RandomStringUtils.randomAlphanumeric(25)
@@ -107,7 +118,7 @@ class LinkedObjectsIT extends ITSupport {
         assertThat(retrievedLinkedObject.getAssociated().getType(), equalTo(LinkedObjectDetailsType.USER))
     }
 
-    @Test
+    @Test(enabled = false)
     void getLinkedObjectDefinitionByAssociatedNameTest() {
         String primaryName = "manager" + RandomStringUtils.randomAlphanumeric(25)
         String associatedName = "subordinate" + RandomStringUtils.randomAlphanumeric(25)
@@ -145,7 +156,7 @@ class LinkedObjectsIT extends ITSupport {
         assertThat(retrievedLinkedObject.getAssociated().getType(), equalTo(LinkedObjectDetailsType.USER))
     }
 
-    @Test
+    @Test(enabled = false)
     void getAllLinkedObjectDefinitionsTest() {
         // create first linked object definition
 
